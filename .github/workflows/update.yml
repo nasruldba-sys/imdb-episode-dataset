@@ -26,6 +26,12 @@ jobs:
       - name: Run build script
         run: python scripts/build.py
 
+      - name: Enrich with TVMaze (genres, language, years, posters)
+        # Never block the daily IMDb update if TVMaze is down: on failure the
+        # previous data/enrich.json simply stays in place.
+        continue-on-error: true
+        run: python scripts/enrich.py
+
       - name: Check for changes
         id: changes
         run: |
